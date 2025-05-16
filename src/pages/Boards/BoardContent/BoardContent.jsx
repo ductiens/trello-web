@@ -5,8 +5,8 @@ import { mapOrder } from "~/utils/sorts";
 import {
   DndContext,
   // PointerSensor,
-  MouseSensor,
-  TouchSensor,
+  // MouseSensor,
+  // TouchSensor,
   useSensor,
   useSensors,
   DragOverlay,
@@ -26,6 +26,8 @@ import { generatePlaceholderCard } from "~/utils/formatters";
 //Để làm giữ chỗ
 import Column from "./ListColumns/Column/Column";
 import Card from "./ListColumns/Column/ListCards/Card/Card";
+
+import { MouseSensor, TouchSensor } from "~/customLibraries/DndKitSensors";
 
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: "ACTIVE_DRAG_ITEM_TYPE_COLUMN",

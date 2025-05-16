@@ -41,41 +41,17 @@ function BoardBar({ board }) {
         gap: 2,
         paddingX: 2,
         overflowX: "auto",
-        bgcolor: (theme) =>
-          theme.palette.mode === "dark" ? "#34495e" : "#1976d2",
+        bgcolor: (theme) => (theme.palette.mode === "dark" ? "#34495e" : "#1976d2"),
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <Chip
-          sx={MENU_STYLES}
-          icon={<DashboardIcon />}
-          label={board?.title}
-          clickable
-        />
-        <Chip
-          sx={MENU_STYLES}
-          icon={<VpnLockIcon />}
-          label={capitalizeFirstLetter(board?.type)}
-          clickable
-        />
-        <Chip
-          sx={MENU_STYLES}
-          icon={<AddToDriveIcon />}
-          label="Add To Google Drive"
-          clickable
-        />
-        <Chip
-          sx={MENU_STYLES}
-          icon={<BoltIcon />}
-          label="Animation"
-          clickable
-        />
-        <Chip
-          sx={MENU_STYLES}
-          icon={<FilterListIcon />}
-          label="Filters"
-          clickable
-        />
+        <Tooltip title={board?.description}>
+          <Chip sx={MENU_STYLES} icon={<DashboardIcon />} label={board?.title} clickable />
+        </Tooltip>
+        <Chip sx={MENU_STYLES} icon={<VpnLockIcon />} label={capitalizeFirstLetter(board?.type)} clickable />
+        <Chip sx={MENU_STYLES} icon={<AddToDriveIcon />} label="Add To Google Drive" clickable />
+        <Chip sx={MENU_STYLES} icon={<BoltIcon />} label="Animation" clickable />
+        <Chip sx={MENU_STYLES} icon={<FilterListIcon />} label="Filters" clickable />
       </Box>
 
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -108,10 +84,7 @@ function BoardBar({ board }) {
           }}
         >
           <Tooltip title="DucTien">
-            <Avatar
-              alt="Duc Tien"
-              src="https://files.fullstack.edu.vn/f8-prod/user_photos/267291/6372641bf40ba.jpg"
-            />
+            <Avatar alt="Duc Tien" src="https://files.fullstack.edu.vn/f8-prod/user_photos/267291/6372641bf40ba.jpg" />
           </Tooltip>
           <Tooltip title="Ferr Studio">
             <Avatar
@@ -132,22 +105,13 @@ function BoardBar({ board }) {
             />
           </Tooltip>
           <Tooltip title="DucTien">
-            <Avatar
-              alt="Duc Tien"
-              src="https://files.fullstack.edu.vn/f8-prod/user_photos/267291/6372641bf40ba.jpg"
-            />
+            <Avatar alt="Duc Tien" src="https://files.fullstack.edu.vn/f8-prod/user_photos/267291/6372641bf40ba.jpg" />
           </Tooltip>
           <Tooltip title="DucTien">
-            <Avatar
-              alt="Duc Tien"
-              src="https://files.fullstack.edu.vn/f8-prod/user_photos/267291/6372641bf40ba.jpg"
-            />
+            <Avatar alt="Duc Tien" src="https://files.fullstack.edu.vn/f8-prod/user_photos/267291/6372641bf40ba.jpg" />
           </Tooltip>
           <Tooltip title="DucTien">
-            <Avatar
-              alt="Duc Tien"
-              src="https://files.fullstack.edu.vn/f8-prod/user_photos/267291/6372641bf40ba.jpg"
-            />
+            <Avatar alt="Duc Tien" src="https://files.fullstack.edu.vn/f8-prod/user_photos/267291/6372641bf40ba.jpg" />
           </Tooltip>
         </AvatarGroup>
       </Box>

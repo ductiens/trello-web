@@ -41,9 +41,11 @@ function Card({ card }) {
         overflow: "unset",
 
         display: card?.FE_PlaceholderCard ? "none" : "block", //Cách 1
-
         // opacity: card?.FE_PlaceholderCard ? "0" : "1",       //Cách 2
         // height: card?.FE_PlaceholderCard ? "5px" : "unset",
+
+        border: "1px solid transparent",
+        "&:hover": { borderColor: (theme) => theme.palette.primary.main },
       }}
       ref={setNodeRef}
       style={dndKitCardStyles}
