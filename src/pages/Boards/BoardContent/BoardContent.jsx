@@ -34,7 +34,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: "ACTIVE_DRAG_ITEM_TYPE_CARD",
 };
 
-function BoardContent({ board, createNewColumn, createNewCard }) {
+function BoardContent({ board, createNewColumn, createNewCard, moveColumns }) {
   // const orderedColumns = mapOrder(board?.columns, board?.columnOrderIds, "_id");
 
   // State lưu danh sách cột đã được sắp xếp theo columnOrderIds
@@ -274,6 +274,14 @@ function BoardContent({ board, createNewColumn, createNewCard }) {
         // console.log("dndOrderedColumns: ", dndOrderedColumns);
         // console.log("dndOrderedColumnsIds: ", dndOrderedColumnsIds);
 
+        /**Gọi lên props function moveColumns nằm ở component cha cao nhất (boards/_id.jsx)
+         * Lưu ý: Nên đưa dữ liệu Board rea ngoài Redux Global Store và lúc này ta có thể gọi luôn API ở đây là xong
+         * thay vì phải lần lượt gọi ngược lên những component cha phía trên. Đối với component con nằm càng sâu thì càng khổ
+         * Sử dụng Redux code sẽ Clean chuẩn chỉnh hơn rất nhiều
+         */
+        moveColumns(dndOrderedColumns);
+
+        //Vẫn gọi update State ở đây để tránh delay hoặc Flickering giao diện lúc kéo thả cần phải chờ goi API
         //Cập nhật lại state columns ban đầu sau khi đã kéo thả
         setOrderedColumns(dndOrderedColumns);
       }
@@ -394,7 +402,7 @@ function BoardContent({ board, createNewColumn, createNewCard }) {
           p: "10px 0",
         }}
       >
-        <ListColumns columns={orderedColumns} createNewColumn={createNewColumn} createNewCard={createNewCard}/>
+        <ListColumns columns={orderedColumns} createNewColumn={createNewColumn} createNewCard={createNewCard} />
         <DragOverlay dropAnimation={customDropAnimation}>
           {!activeDragItemType && null}
           {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && <Column column={activeDragItemData} />}

@@ -17,6 +17,10 @@ export const fetchBoardDetailsAPI = async (boardId) => {
   //Lưu ý: axios trả kết quả về qua property của nó là data
   return response.data;
 };
+export const updateBoardDetailsAPI = async (boardId, updateData) => {
+  const response = await axios.put(`${API_ROOT}/v1/boards/${boardId}`, updateData);
+  return response.data;
+};
 
 // Columns
 export const createNewColumnAPI = async (newColumnData) => {
@@ -29,3 +33,5 @@ export const createNewCardAPI = async (newCardData) => {
   const response = await axios.post(`${API_ROOT}/v1/cards`, newCardData);
   return response.data;
 };
+
+
