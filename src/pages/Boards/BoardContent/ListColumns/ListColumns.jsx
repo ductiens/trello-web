@@ -11,19 +11,30 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { toast } from "react-toastify";
 
-function ListColumns({ columns }) {
+function ListColumns({ columns, createNewColumn, createNewCard }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false);
   const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm);
 
   const [newColumnTitle, setNewColumnTitle] = useState("");
 
-  const addNewColumn = () => {
+  const addNewColumn = async () => {
     if (!newColumnTitle) {
       toast.error("Please enter Column Title!");
       return;
     }
 
-    //Gọi API ở đây
+    //Tạo dữ liệu column để gọi API
+    const newColumnData = {
+      title: newColumnTitle,
+    };
+
+    //Gọi API ở đây sẽ rất phiền -> gọi ở cha rồi truyền xuống
+    /**Gọi lên props function createNewColumn nằm ở component cha cao nhất (boards/_id.jsx)
+     * Lưu ý: Nên đưa dữ liệu Board rea ngoài Redux Global Store và lúc này ta có thể gọi luôn API ở đây là xong
+     * thay vì phải lần lượt gọi ngược lên những component cha phía trên. Đối với component con nằm càng sâu thì càng khổ
+     * Sử dụng Redux code sẽ Clean chuẩn chỉnh hơn rất nhiều
+     */
+    await createNewColumn(newColumnData);
 
     toggleOpenNewColumnForm();
     setNewColumnTitle("");
@@ -50,7 +61,7 @@ function ListColumns({ columns }) {
       >
         {/* Box Column */}
         {columns?.map((column) => {
-          return <Column key={column._id} column={column} />;
+          return <Column key={column._id} column={column} createNewCard={createNewCard} />;
         })}
 
         {/* Add Column */}

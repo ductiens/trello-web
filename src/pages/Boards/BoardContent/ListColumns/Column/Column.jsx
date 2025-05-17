@@ -29,7 +29,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { toast } from "react-toastify";
 
-function Column({ column }) {
+function Column({ column, createNewCard }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -66,7 +66,7 @@ function Column({ column }) {
 
   const [newCardTitle, setNewCardTitle] = useState("");
 
-  const addNewCard = () => {
+  const addNewCard = async () => {
     if (!newCardTitle) {
       toast.error("Please enter Card Title!", {
         position: "bottom-right",
@@ -74,7 +74,19 @@ function Column({ column }) {
       return;
     }
 
-    //Gọi API ở đây
+    //Tạo dữ liệu Card  để gọi API
+    const newCardData = {
+      title: newCardTitle,
+      columnId: column._id,
+    };
+
+    //Gọi API ở đây sẽ rất phiền -> gọi ở cha rồi truyền xuống
+    /**Gọi lên props function createNewCard nằm ở component cha cao nhất (boards/_id.jsx)
+     * Lưu ý: Nên đưa dữ liệu Board rea ngoài Redux Global Store và lúc này ta có thể gọi luôn API ở đây là xong
+     * thay vì phải lần lượt gọi ngược lên những component cha phía trên. Đối với component con nằm càng sâu thì càng khổ
+     * Sử dụng Redux code sẽ Clean chuẩn chỉnh hơn rất nhiều
+     */
+    await createNewCard(newCardData);
 
     toggleOpenNewCardForm();
     setNewCardTitle("");
