@@ -19,7 +19,6 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 
 import ListCards from "./ListCards/ListCards";
-import { mapOrder } from "~/utils/sorts";
 
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -39,7 +38,8 @@ function Column({ column, createNewCard }) {
     setAnchorEl(null);
   };
 
-  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, "_id");
+  //Cards đã đc sắp xếp ở component cha cao nhất (boards/_id.jsx)
+  const orderedCards = column.cards;
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
@@ -66,7 +66,7 @@ function Column({ column, createNewCard }) {
 
   const [newCardTitle, setNewCardTitle] = useState("");
 
-  const addNewCard = async () => {
+  const addNewCard = () => {
     if (!newCardTitle) {
       toast.error("Please enter Card Title!", {
         position: "bottom-right",
@@ -86,7 +86,8 @@ function Column({ column, createNewCard }) {
      * thay vì phải lần lượt gọi ngược lên những component cha phía trên. Đối với component con nằm càng sâu thì càng khổ
      * Sử dụng Redux code sẽ Clean chuẩn chỉnh hơn rất nhiều
      */
-    await createNewCard(newCardData);
+    // await createNewCard(newCardData);
+    createNewCard(newCardData);
 
     toggleOpenNewCardForm();
     setNewCardTitle("");
