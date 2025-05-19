@@ -28,7 +28,9 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import { toast } from "react-toastify";
 
-function Column({ column, createNewCard }) {
+import { useConfirm } from "material-ui-confirm";
+
+function Column({ column, createNewCard, deleteColumnDetails }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -93,6 +95,33 @@ function Column({ column, createNewCard }) {
     setNewCardTitle("");
   };
 
+  //Xử lý xóa 1 Column và Cards bên trong nó dùng material-ui-confirm
+  const confirmDeleteColumn = useConfirm();
+  const handleClickColumn = () => {
+    confirmDeleteColumn({
+      title: "Delete Column",
+      description: "This action will permanently delete your Column and its Cards! Are you sure?",
+      confirmationText: "Confirm",
+      cancellationText: "Cancel",
+      // buttonOrder: ["Confirm", "Cancel"],
+      // allowClose: false,
+      // dialogProps: { maxWidth: "xs" },
+      // cancellationButtonProps: { color: "inherit" },
+      // confirmationButtonProps: { color: "secondary", variant: "outlined" },
+    })
+      .then(() => {
+        /**Gọi lên props function deleteColumnDetails nằm ở component cha cao nhất (boards/_id.jsx)
+         * Lưu ý: Nên đưa dữ liệu Board rea ngoài Redux Global Store và lúc này ta có thể gọi luôn API ở đây là xong
+         * thay vì phải lần lượt gọi ngược lên những component cha phía trên. Đối với component con nằm càng sâu thì càng khổ
+         * Sử dụng Redux code sẽ Clean chuẩn chỉnh hơn rất nhiều
+         */
+        deleteColumnDetails(column._id);
+        // console.log(column._id);
+        // console.log(column.title);
+      })
+      .catch(() => {});
+  };
+
   //Phải bọc bởi div vì vấn đề chiều cao của column khi kéo thả sẽ có bug kiểu flickering
   return (
     <div ref={setNodeRef} style={dndKitColumnStyles} {...attributes}>
@@ -145,13 +174,22 @@ function Column({ column, createNewCard }) {
               anchorEl={anchorEl}
               open={open}
               onClose={handleClose}
+              onClick={handleClose}
               MenuListProps={{
                 "aria-labelledby": "basic-column-dropdown",
               }}
             >
-              <MenuItem>
+              <MenuItem
+                onClick={toggleOpenNewCardForm}
+                sx={{
+                  "&:hover": {
+                    color: "success.light",
+                    "& .add-card-icon": { color: "success.light" },
+                  },
+                }}
+              >
                 <ListItemIcon>
-                  <AddCardIcon fontSize="small" />
+                  <AddCardIcon className="add-card-icon" fontSize="small" />
                 </ListItemIcon>
                 <ListItemText>Add new card</ListItemText>
               </MenuItem>
@@ -175,11 +213,19 @@ function Column({ column, createNewCard }) {
               </MenuItem>
 
               <Divider />
-              <MenuItem>
+              <MenuItem
+                onClick={handleClickColumn}
+                sx={{
+                  "&:hover": {
+                    color: "warning.dark",
+                    "& .delete-forever-icon": { color: "warning.dark" },
+                  },
+                }}
+              >
                 <ListItemIcon>
-                  <DeleteForeverIcon fontSize="small" />
+                  <DeleteForeverIcon className="delete-forever-icon" fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>Remove this column</ListItemText>
+                <ListItemText>Delete this column</ListItemText>
               </MenuItem>
               <MenuItem>
                 <ListItemIcon>
