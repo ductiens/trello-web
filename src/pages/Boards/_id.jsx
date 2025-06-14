@@ -9,7 +9,7 @@ import { mapOrder } from "~/utils/sorts";
 
 // import { mockData } from "~/apis/mock-data";
 import {
-  fetchBoardDetailsAPI,
+  fetchBoardDetailsAPI, //Lấy thông tin chi tiết board
   createNewColumnAPI,
   createNewCardAPI,
   updateBoardDetailsAPI,
@@ -17,7 +17,7 @@ import {
   moveCardToDifferentColumnAPI,
   deleteColumnDetailsAPI,
 } from "~/apis";
-import { generatePlaceholderCard } from "~/utils/formatters";
+import { generatePlaceholderCard } from "~/utils/formatters"; //Tạo card giả để hiển thị khi column rỗng
 import { isEmpty } from "lodash";
 
 import Box from "@mui/material/Box";
